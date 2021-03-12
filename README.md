@@ -21,5 +21,5 @@ To build and run the sample pipeline contained in `SamplePipeline.ipynb` the fol
         * Tables can be created by running the `CreateTables.sql` script
         * Data contained in `Filter_Data.csv` was uploaded to `Filter` table
         * Data contained in `Profile_Data.csv` was uploaded to `Profile` table
-        * Processed results from the pipeline run are written into `Results` table
+        * Processed results from the pipeline run are inserted into `Results` table
 
