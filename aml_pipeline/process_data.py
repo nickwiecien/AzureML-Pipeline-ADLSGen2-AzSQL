@@ -11,21 +11,19 @@ import datetime
 import json
 
 #Parse input arguments
-parser = argparse.ArgumentParser("Save Data to ADLS Gen2 Args")
-parser.add_argument("--processed_dataset", dest='processed_dataset', required=True)
+parser = argparse.ArgumentParser("Process Filter/Profile Data")
 parser.add_argument("--processed_dataset_interim", dest='processed_dataset_interim', required=True)
-parser.add_argument('--query_param', type=int, required=True)
 args, _ = parser.parse_known_args()
-query_param = args.query_param
-processed_dataset = args.processed_dataset
 processed_dataset_interim = args.processed_dataset_interim
 
 #Get current run
 current_run = Run.get_context()
 
-#Parse intermediate data into pandas dataframe
-processed_df = pd.read_csv(processed_dataset_interim)
-
+#Parse profile and filter datasets to pandas dataframes
+profile_dataset = current_run.input_datasets['profile_data']
+profile_df = profile_dataset.to_pandas_dataframe()
+filter_dataset = current_run.input_datasets['filter_data']
+filter_df = filter_dataset.to_pandas_dataframe()
 
 
 
@@ -34,7 +32,9 @@ processed_df = pd.read_csv(processed_dataset_interim)
 
 
 
-filename = '{}_filename.csv'.format(query_param)
+#Datasets were merged here as a representative example.
+#Replace this with ML code.
+merged_df = pd.concat([profile_df, filter_df], axis=1)
 
 
 
@@ -43,7 +43,5 @@ filename = '{}_filename.csv'.format(query_param)
 
 
 
-
-#Save data to ADLS Gen 2
-os.makedirs(processed_dataset, exist_ok=True)
-processed_df.to_csv(os.path.join(processed_dataset, filename), index=False)
+#Write final dataframe to output dataset path
+merged_df.to_csv(processed_dataset_interim, index=False)
