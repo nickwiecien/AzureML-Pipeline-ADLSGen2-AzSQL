@@ -12,9 +12,13 @@ import json
 
 #Parse input arguments
 parser = argparse.ArgumentParser("Process Filter/Profile Data")
-parser.add_argument("--processed_dataset_interim", dest='processed_dataset_interim', required=True)
+parser.add_argument("--processed_dataset_adls", dest='processed_dataset_adls', required=True)
+parser.add_argument("--processed_dataset_sql", dest='processed_dataset_sql', required=True)
+parser.add_argument("--output_path", type=str, required=True)
 args, _ = parser.parse_known_args()
-processed_dataset_interim = args.processed_dataset_interim
+processed_dataset_sql = args.processed_dataset_sql
+processed_dataset_adls = args.processed_dataset_adls
+output_path = args.output_path
 
 #Get current run
 current_run = Run.get_context()
@@ -43,5 +47,11 @@ merged_df = pd.concat([profile_df, filter_df], axis=1)
 
 
 
-#Write final dataframe to output dataset path
-merged_df.to_csv(processed_dataset_interim, index=False)
+#Write sql dataframe to processed_dataset_sql path - this will be
+#inserted into SQL via the DataTransferStep
+merged_df.to_csv(processed_dataset_sql, index=False)
+
+#Save adls dataframe to processed_dataset_adls path
+os.makedirs(processed_dataset_adls, exist_ok=True)
+filename = '{}.csv'.format(output_path)
+merged_df.to_csv(os.path.join(processed_dataset_adls, filename), index=False)
