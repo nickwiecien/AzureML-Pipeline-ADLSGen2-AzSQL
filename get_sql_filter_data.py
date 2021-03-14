@@ -12,10 +12,10 @@ import json
 
 #Parse input arguments
 parser = argparse.ArgumentParser("Get Filter SQL Data")
-parser.add_argument('--query_param', type=int, required=True)
+parser.add_argument('--project_id', type=int, required=True)
 parser.add_argument("--filter_dataset", dest='filter_dataset', required=True)
 args, _ = parser.parse_known_args()
-query_param = args.query_param
+project_id = args.project_id
 filter_dataset = args.filter_dataset
 
 #Get current run
@@ -35,7 +35,7 @@ ws = current_run.experiment.workspace
 azsql_ds = Datastore.get(ws, 'azsql_ds')
 
 #UPDATE QUERY STRING HERE 
-query_string = 'SELECT * FROM Filter WHERE D={}'.format(str(query_param))
+query_string = 'SELECT * FROM Filter WHERE D={}'.format(str(project_id))
 
 
 
