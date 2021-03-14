@@ -2,9 +2,9 @@
 
 Sample Azure Machine Learning pipeline demonstrating how to query Azure SQL DB using variable pipeline arguments, register datasets between pipeline steps, and sink ML-processed result data into Azure SQL DB & ADLS Gen2. 
 
-This pipeline accepts one variable argument in the form of a `PipelineParameter` which is used to dynamically modify SQL queries and update filenames when exporting data to ADLS Gen2.
+This pipeline accepts two variable arguments in the form of `PipelineParameter`s which are used to dynamically modify SQL queries and update filenames when exporting data to ADLS Gen2.
 
-![AML Pipeline](img/aml_pipeline.PNG?raw=true "AzureML-Pipeline-ADLSGen2-AzSQL")
+![AML Pipeline](img/aml_pipeline_v2.PNG?raw=true "AzureML-Pipeline-ADLSGen2-AzSQL")
 
 ## Environment Setup
 <b>Note:</b> Recommend running this notebook using an Azure Machine Learning compute instance using the preconfigured `Python 3.6 - AzureML` environment.
